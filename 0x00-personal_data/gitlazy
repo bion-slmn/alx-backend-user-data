@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+# this script automates pushing to the git repo
+
+file="$1"
+message="$2"
+# check if its a file
+if test -f  "$file"
+then
+	git add "$file"
+	# prompt for the message
+	while [ -z "$message" ]
+	do
+		read -rp "Write a commit message :" message
+	done
+	git commit -m "$message"
+	git push
+fi
