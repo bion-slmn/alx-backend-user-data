@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-'''this module encypts a password and using bcypt method'''
+'''this module encypts a password and using bcypt method
+'''
 import bcrypt
 
 
-def hash_password(password: str) -> str:
+def hash_password(password: str) -> bytes:
     '''function to hash a password adn return a hashed byte string'''
     return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
 
