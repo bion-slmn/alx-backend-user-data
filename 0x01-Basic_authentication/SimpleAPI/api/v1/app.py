@@ -12,6 +12,34 @@ import os
 app = Flask(__name__)
 app.register_blueprint(app_views)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
+auth = None
+auth = getenv('AUTH_TYPE')
+
+
+if auth:
+    from api.v1.auth.basic_auth import BasicAuth
+    from api.v1.auth.auth import Auth
+    if auth == 'basic_auth':
+        auth = BasicAuth()
+    else:
+        auth = Auth()
+
+@app.before_request
+def before_any_request():
+    '''filters requests that require authentication from those that dont'''
+    if auth:
+        excluded_list = [
+                '/api/v1/status/', 
+                '/api/v1/unauthorized/', 
+                '/api/v1/forbidden/'
+                ]
+        result = auth.require_auth(request.path, excluded_list)
+        # if auth.require_auth return False, we need to authN
+        if  result:
+            if auth.authorization_header(request) == None:
+                abort(401)
+            if auth.current_user(request) == None:
+                abort(403)
 
 
 @app.errorhandler(404)
@@ -19,6 +47,21 @@ def not_found(error) -> str:
     """ Not found handler
     """
     return jsonify({"error": "Not found"}), 404
+
+
+@app.errorhandler(401)
+def not_authorized(error) -> str:
+    '''return and error message if user is not allowed to access'''
+    return jsonify({"error": "Unauthorized"}), 401
+
+
+@app.errorhandler(403)
+def forbidden_access(error) -> str:
+    '''
+    return a forbbiden message if user has not permmision to acess the
+    resource
+    '''
+    return jsonify({"error": "Forbidden"}), 403
 
 
 if __name__ == "__main__":
