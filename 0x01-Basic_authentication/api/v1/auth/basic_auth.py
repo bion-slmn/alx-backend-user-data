@@ -30,7 +30,7 @@ class BasicAuth(Auth):
             Returns a string fron the authorizatio header
         '''
         try:
-            if not base64_authorization_header
+            if not base64_authorization_header \
                     or not isinstance(base64_authorization_header, str):
                 return None
             decoded_bytes = base64.b64decode(base64_authorization_header)
