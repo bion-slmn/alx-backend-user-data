@@ -63,7 +63,7 @@ class BasicAuth(Auth):
                 'email': user_email,
                 }
         user_list = User.search(details)
-        if user_list:
+        if len(user_list) >= 1:
             for user in user_list:
                 if user.is_valid_password(user_pwd):
                     return user
