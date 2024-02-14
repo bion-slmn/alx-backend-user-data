@@ -62,11 +62,14 @@ class BasicAuth(Auth):
         details = {
                 'email': user_email,
                 }
-        user_list = User.search(details)
-        if len(user_list) >= 1:
-            for user in user_list:
-                if user.is_valid_password(user_pwd):
-                    return user
+        try:
+            user_list = User.search(details)
+        except Exception:
+            return None
+
+        for user in user_list:
+            if user.is_valid_password(user_pwd):
+                return user
         return None
 
     def current_user(self, request=None) -> TypeVar('User'):
