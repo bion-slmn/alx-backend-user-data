@@ -38,7 +38,7 @@ class SessionAuth(Auth):
         return self.user_id_by_session_id.get(session_id)
 
     def current_user(self, request=None):
-        '''retrives the current user in the session 
+        '''retrives the current user in the session
 
         Parameter:
         request (request object): a request passed in th url
