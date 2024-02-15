@@ -10,14 +10,18 @@ class SessionExpAuth(SessionAuth):
 
     def __init__(self):
         duration = os.getenv('SESSION_DURATION ')
-        self.session_duration = int(duration) if duration else 0
+        try:
+            duraation = int(duration)
+        except Exception:
+            duration = 0
+        self.session_duration = duration
 
     def create_session(self, user_id=None):
         '''create a session id by calling the parent class
 
         Parameter:
         user_id (str): the id of the user a uuid4 str
-        
+
         Return:
         a session_id or None'''
         session_id = super().create_session(user_id)
@@ -42,9 +46,9 @@ class SessionExpAuth(SessionAuth):
             return None
         if self.session_duration <= 0:
             return id_session.get('user_id')
-        if not session_id.get('created_at'):
+        if not id_session.get('created_at'):
             return None
-        if id_session.get('created_at') + self.session_duration < datetime - timedelta:
+        if (id_session.get('created_at') +
+                self.session_duration < datetime - timedelta):
             return None
         return id_session.get('user_id')
-
