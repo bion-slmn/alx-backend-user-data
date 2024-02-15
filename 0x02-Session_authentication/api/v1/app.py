@@ -34,7 +34,10 @@ if auth:
 
 @app.before_request
 def before_any_request():
-    '''filters requests that require authentication from those that dont'''
+    '''filters requests that require authentication from those that dont
+    doestnt return any.
+    This acts like a middleware
+    '''
     if auth:
         excluded_list = [
                 '/api/v1/status/',
@@ -49,8 +52,6 @@ def before_any_request():
             if not auth.authorization_header(request) \
                     and not auth.session_cookie(request):
                 abort(401)
-            # if auth.authorization_header(request) is None:
-            #    abort(401)
             if auth.current_user(request) is None:
                 abort(403)
 
