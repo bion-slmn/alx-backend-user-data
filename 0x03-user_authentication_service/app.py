@@ -62,16 +62,12 @@ def logout() -> Response:
 
     and redirect to the home page
     '''
-    try:
-        session_id = request.cookies.get('session_id')
-        user = AUTH.get_user_from_session_id(session_id)
-        if user:
-            AUTH.destroy_session(user.id)
-            return redirect(url_for('home'))
-        abort(403)
-    except Exception as e:
-        print(e)
-        abort(403)
+    session_id = request.cookies.get('session_id')
+    user = AUTH.get_user_from_session_id(session_id)
+    if user:
+        AUTH.destroy_session(user.id)
+        return redirect(url_for('home'))
+    abort(403)
 
 
 @app.route('/profile')
