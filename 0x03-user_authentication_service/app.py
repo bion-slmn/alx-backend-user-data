@@ -101,7 +101,7 @@ def reset_password():
 
 
 @app.route('/reset_password', methods=['PUT'])
-def update_password(): -> Response
+def update_password() -> Response:
     '''update the password of the user by reading the content o fthe
     form.
     '''
