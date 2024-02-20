@@ -54,8 +54,14 @@ class DB:
 
         Returns:
             User: The found user or an exeption'''
-        a_user = self._session.query(User).filter_by(**kwargs).one()
-        return a_user
+        for k, v in kwargs.items():
+            if not hasattr(User, k):
+                raise InvalidRequestError()
+
+        a_user = self._session.query(User).filter_by(**kwargs).first()
+        if a_user:
+            return a_user
+        raise NoResultFound()
 
     def update_user(self, user_id: int, **kwargs: Dict) -> None:
         ''' update a user who has an id user_id with kwargs
