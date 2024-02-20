@@ -56,7 +56,7 @@ def login() -> Response:
 
 
 @app.route('/sessions', methods=['DELETE'])
-def logout() -> Response:
+def logout() -> str:
     '''
     log out a user if exits else raise 403 ecxeption
 
