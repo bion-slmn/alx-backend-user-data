@@ -21,7 +21,7 @@ def _hash_password(password: str) -> bytes:
     return hashpwd
 
 
-def _generate_uuid(self) -> str:
+def _generate_uuid() -> str:
     '''generate a uuid string
      Return:
        a uuid string represenataion
