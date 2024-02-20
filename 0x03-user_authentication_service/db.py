@@ -62,7 +62,7 @@ class DB:
             return user
         raise NoResultFound
 
-    def update_user(self, user_id: int, **kwargs: Dict) -> None:
+    def update_user(self, user_id: int, **kwargs) -> None:
         ''' update a user who has an id user_id with kwargs
 
         Parameter:
@@ -71,12 +71,12 @@ class DB:
 
         Return:
             None'''
-        try:
-            a_user = self.find_user_by(id=user_id)
-            for key, value in kwargs.items():
+
+        a_user = self.find_user_by(id=user_id)
+        for key, value in kwargs.items():
+            if hasattr(a_user, key):
                 setattr(a_user, key, value)
+            else:
+                raise ValueError
 
-            self._session.commit()
-
-        except Exception:
-            raise ValueError
+        self._session.commit()
