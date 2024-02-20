@@ -44,7 +44,7 @@ class DB:
         self._session.commit()
         return a_user
 
-    def find_user_by(self, **kwargs: Dict) -> Union[User, Exception]:
+    def find_user_by(self, **kwargs: Dict) -> User:
         '''Find a user by the given search criteria.
 
          Parameters:
