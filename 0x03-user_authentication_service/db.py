@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """DB moidule
 """
 from sqlalchemy import create_engine
@@ -34,12 +35,10 @@ class DB:
 
     def add_user(self, email: str, hashed_password: str) -> User:
         '''saves a user into the database
-
         Parameter:
             email : a string representing the email of a user
             hashed_password : a string representing the password
-        Return:
-            a user object'''
+        '''
         a_user = User(email=email, hashed_password=hashed_password)
         self._session.add(a_user)
         self._session.commit()
