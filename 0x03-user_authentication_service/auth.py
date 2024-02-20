@@ -28,8 +28,7 @@ class Auth:
     def __init__(self):
         self._db = DB()
 
-    def register_user(self, email: str,
-                      password: str) -> Union[User, Exception]:
+    def register_user(self, email: str, password: str) -> User:
         ''' register a user in the database is doesnt exist or raise exception
 
         Parameter:
