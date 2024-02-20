@@ -44,7 +44,7 @@ class DB:
         self._session.commit()
         return a_user
 
-    def find_user_by(self, **kwargs: Dict) -> User:
+    def find_user_by(self, **kwargs) -> User:
         '''Find a user by the given search criteria.
 
          Parameters:
@@ -54,14 +54,13 @@ class DB:
 
         Returns:
             User: The found user or an exeption'''
-        for k, v in kwargs.items():
-            if not hasattr(User, k):
-                raise InvalidRequestError()
+        if not kwargs:
+            raise InvalidRequestError
 
-        a_user = self._session.query(User).filter_by(**kwargs).first()
-        if a_user:
-            return a_user
-        raise NoResultFound()
+        user = self._session.query(User).filter_by(**kwargs).first()
+        if user:
+            return user
+        raise NoResultFound
 
     def update_user(self, user_id: int, **kwargs: Dict) -> None:
         ''' update a user who has an id user_id with kwargs
