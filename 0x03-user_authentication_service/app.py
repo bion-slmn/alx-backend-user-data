@@ -60,9 +60,9 @@ def login() -> Response:
 def logout() -> str:
     '''
     log out a user if exits else raise 403 ecxeption
-
     and redirect to the home page
     '''
+    user = None
     session_id = request.cookies.get('session_id')
     user = AUTH.get_user_from_session_id(session_id)
     if user:
