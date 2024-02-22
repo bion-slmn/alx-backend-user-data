@@ -115,11 +115,9 @@ class Auth:
         Parmater:
             user_id: integer representing the id of the user
         '''
-        try:
-            user = self._db.find_user_by(id=user_id)
-            self._db.update_user(user.id, session_id=None)
-        except Exception:
+        if user_id is None:
             return None
+        self._db.update_user(user.id, session_id=None)
 
     def get_reset_password_token(self, email: str) -> str:
         '''
